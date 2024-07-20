@@ -21,7 +21,8 @@ export default function Stream({ connected, connect, signer }) {
       } else if (timePeriod === "month") {
         formattedFlowRate /= 30 * 24 * 60 * 60;
       }
-      let flow = parseUnits(formattedFlowRate, 9);
+
+      let flow = formattedFlowRate * 10 ** 9;
       const resultUint32 = instance.encrypt32(Number(flow));
       let receiver = document.getElementById("receiver").value;
       const contract = new ethers.Contract(contractAdd, contractAbi, signer);

@@ -11,7 +11,7 @@ export default function Private({ connected, connect, signer }) {
         </div>
         <p className="mt-4">
           This enables privately sending and receiving tokens without revealing
-          the address and amount by using ZKProofs and FHE.
+          the address and amount by using ZKProofs and FHE, Inco Network.
         </p>
       </div>
     </div>

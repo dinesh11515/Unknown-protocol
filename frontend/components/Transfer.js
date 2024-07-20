@@ -14,9 +14,7 @@ export default function Transfer({ connected, connect, signer }) {
 
   const transferTokens = async () => {
     try {
-      console.log("hui");
       let instance = await getInstance();
-      console.log(instance);
       const amountTo = parseUnits(amount, 9);
       const contract = new ethers.Contract(contractAdd, contractAbi, signer);
       let receiver = document.getElementById("receiver").value;
