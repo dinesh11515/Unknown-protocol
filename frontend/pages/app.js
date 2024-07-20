@@ -7,6 +7,8 @@ import { ethers } from "ethers";
 import Transfer from "@/components/Transfer";
 import Private from "@/components/Private";
 
+const AUTHORIZED_CHAIN_ID = ["0x2382"]; // 9090
+
 export default function App() {
   const [wrap, setWrap] = useState(true);
   const [send, setSend] = useState(false);
@@ -16,6 +18,14 @@ export default function App() {
   const [connected, setConnected] = useState(false);
   const [account, setAccount] = useState("");
   const router = useRouter();
+
+  const hasValidNetwork = async () => {
+    const currentChainId = await window.ethereum.request({
+      method: "eth_chainId",
+    });
+    return AUTHORIZED_CHAIN_ID.includes(currentChainId.toLowerCase());
+  };
+
   async function connect() {
     if (window.ethereum) {
       try {
@@ -26,31 +36,61 @@ export default function App() {
         const signer = await provider.getSigner();
         setSigner(signer);
         setAccount(signer.address);
+        if (!(await hasValidNetwork())) {
+          await switchNetwork();
+        }
         setConnected(true);
       } catch (err) {
         console.log("error connecting: ", err);
       }
     }
   }
+
+  const switchNetwork = async () => {
+    try {
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: AUTHORIZED_CHAIN_ID[0] }],
+      });
+    } catch (e) {
+      await window.ethereum.request({
+        method: "wallet_addEthereumChain",
+        params: [
+          {
+            chainId: AUTHORIZED_CHAIN_ID[0],
+            rpcUrls: ["https://testnet.inco.org"],
+            chainName: "Inco Gentry Testnet",
+            nativeCurrency: {
+              name: "INCO",
+              symbol: "INCO",
+              decimals: 18,
+            },
+            blockExplorerUrls: ["https://explorer.inco.org/"],
+          },
+        ],
+      });
+    }
+  };
+
   return (
     <div className="mx-40  desktop:mx-60">
       <div className="flex   py-4  items-center justify-between gap-1 ">
         <button
-          className="flex  text-4xl items-center gap-3 "
+          className="flex  text-2xl items-center gap-3 "
           onClick={() => router.push("/")}
         >
-          <Image src="/stream.ico" width={45} height={14} alt="logo"></Image>
+          <Image src="/stream.ico" width={35} height={14} alt="logo"></Image>
           <p className="font-['Anton'] tracking-widest uppercase">Unknown</p>
         </button>
         {!connected ? (
           <button
-            className="bg-[#1db227] hover:bg-green-500 tracking-wide text-[22px] px-10 py-3 rounded-full text-white"
+            className="bg-[#1db227] hover:bg-green-500 tracking-wide text-[16px] px-10 py-3 rounded-full text-white"
             onClick={connect}
           >
             Connect Wallet
           </button>
         ) : (
-          <p className="bg-[#1db227] hover:bg-green-500 tracking-wide text-[22px] px-10 py-3 rounded-full text-white">
+          <p className="bg-[#1db227] hover:bg-green-500 tracking-wide text-[16px] px-5 py-3 rounded-full text-white">
             {account.slice(0, 6) + "..." + account.slice(-8)}
           </p>
         )}

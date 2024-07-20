@@ -66,25 +66,11 @@ export default function Wrapper({ connected, connect, signer }) {
             />
             {wrap ? (
               <div className="flex item-center gap-2 border-[2px] border-gray-300 text-xl px-6 py-2 rounded-xl">
-                {/* <Image
-                    src=""
-                    width={28}
-                    height={14}
-                    alt="logo"
-                    className="rounded-full"
-                  ></Image> */}
-                <p>tFHE</p>
+                <p>INCO</p>
               </div>
             ) : (
               <div className="flex item-center gap-2 border-[2px] border-gray-300 text-xl px-6 py-2 rounded-xl">
-                {/* <Image
-                    src="/stream.ico"
-                    width={28}
-                    height={14}
-                    alt="logo"
-                    className="rounded-full"
-                  ></Image> */}
-                <p>sFHE</p>
+                <p>sINCO</p>
               </div>
             )}
           </div>
@@ -103,25 +89,11 @@ export default function Wrapper({ connected, connect, signer }) {
             />
             {!wrap ? (
               <div className="flex item-center gap-2 border-[2px] border-gray-300 text-xl px-6 py-2 rounded-xl">
-                {/* <Image
-                    src="/tFHE.jpeg"
-                    width={28}
-                    height={14}
-                    alt="logo"
-                    className="rounded-full"
-                  ></Image> */}
-                <p>tFHE</p>
+                <p>INCO</p>
               </div>
             ) : (
               <div className="flex item-center gap-2 border-[2px] border-gray-300 text-xl px-6 py-2 rounded-xl">
-                {/* <Image
-                    src="/stream.ico"
-                    width={28}
-                    height={14}
-                    alt="logo"
-                    className="rounded-full"
-                  ></Image> */}
-                <p>sFHE</p>
+                <p>sINCO</p>
               </div>
             )}
           </div>

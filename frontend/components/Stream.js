@@ -3,13 +3,13 @@ import { parseUnits, ethers } from "ethers";
 import { contractAbi, contractAdd } from "@/constants";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { init, createFhevmInstance } from "./fhevm.js";
+import { init, createFhevmInstance, getInstance } from "./fhevm.js";
 export default function Stream({ connected, connect, signer }) {
   const [timePeriod, setTimePeriod] = useState("");
   const [isInitialized, setIsInitialized] = useState(false);
   const sendStream = async () => {
     try {
-      let instance = await createFhevmInstance();
+      let instance = await getInstance();
 
       let formattedFlowRate = document.getElementById("flowrate").value;
       if (timePeriod === "minute") {

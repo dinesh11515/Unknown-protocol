@@ -5,7 +5,7 @@ import { ethers, parseEther, parseUnits } from "ethers";
 import { contractAbi, contractAdd } from "@/constants";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { init, createFhevmInstance } from "./fhevm.js";
+import { init, createFhevmInstance, getInstance } from "./fhevm.js";
 
 export default function Transfer({ connected, connect, signer }) {
   const [wrap, setWrap] = useState(true);
@@ -14,7 +14,9 @@ export default function Transfer({ connected, connect, signer }) {
 
   const transferTokens = async () => {
     try {
-      let instance = await createFhevmInstance();
+      console.log("hui");
+      let instance = await getInstance();
+      console.log(instance);
       const amountTo = parseUnits(amount, 9);
       const contract = new ethers.Contract(contractAdd, contractAbi, signer);
       let receiver = document.getElementById("receiver").value;

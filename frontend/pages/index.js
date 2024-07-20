@@ -14,12 +14,12 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/stream.ico" />
       </Head>
-      <div className="mx-40  desktop:mx-60 ">
+      <div className="mx-40  py-6 desktop:mx-60 ">
         <button
-          className="flex  text-4xl my-10 items-center gap-3"
+          className="flex  text-2xl items-center gap-3 "
           onClick={() => router.push("/")}
         >
-          <Image src="/stream.ico" width={45} height={14} alt="logo"></Image>
+          <Image src="/stream.ico" width={35} height={14} alt="logo"></Image>
           <p className="font-['Anton'] tracking-widest uppercase">Unknown</p>
         </button>
         <div className="flex mt-4 items-center justify-between">

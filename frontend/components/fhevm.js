@@ -1,9 +1,12 @@
-import { BrowserProvider } from "ethers";
-import { createInstance, FhevmInstance, initFhevm } from "fhevmjs/web";
-
+import { BrowserProvider, AbiCoder } from "ethers";
+import { initFhevm, createInstance } from "fhevmjs";
 export const init = async () => {
   await initFhevm();
 };
+
+// TFHE.sol contract address
+// From https://github.com/zama-ai/fhevmjs/blob/c4b8a80a8783ef965973283362221e365a193b76/bin/fhevm.js#L9
+const FHE_LIB_ADDRESS = "0x000000000000000000000000000000000000005d";
 
 let instance;
 
@@ -11,31 +14,19 @@ export const createFhevmInstance = async () => {
   const provider = new BrowserProvider(window.ethereum);
   const network = await provider.getNetwork();
   const chainId = +network.chainId.toString();
-  const publicKey = await provider.call({
-    from: null,
-    to: "0x0000000000000000000000000000000000000044",
+  // Get blockchain public key
+  const ret = await provider.call({
+    to: FHE_LIB_ADDRESS,
+    // first four bytes of keccak256('fhePubKey(bytes1)') + 1 byte for library
+    data: "0xd9d47bb001",
   });
+  const decoded = AbiCoder.defaultAbiCoder().decode(["bytes"], ret);
+  const publicKey = decoded[0];
   instance = await createInstance({ chainId, publicKey });
-  return instance;
 };
 
-export const getTokenSignature = async (contractAddress, userAddress) => {
-  if (getInstance().hasKeypair(contractAddress)) {
-    return getInstance().getTokenSignature(contractAddress);
-  } else {
-    const { publicKey, token } = getInstance().generateToken({
-      verifyingContract: contractAddress,
-    });
-    const params = [userAddress, JSON.stringify(token)];
-    const signature = await window.ethereum.request({
-      method: "eth_signTypedData_v4",
-      params,
-    });
-    getInstance().setTokenSignature(contractAddress, signature);
-    return { signature, publicKey };
-  }
-};
-
-export const getInstance = () => {
+export const getInstance = async () => {
+  await init();
+  await createFhevmInstance();
   return instance;
 };

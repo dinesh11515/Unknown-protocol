@@ -13,7 +13,7 @@
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
     "ethers": "^6.9.1",
-    "fhevmjs": "^0.2.2",
+    "fhevmjs": "0.4.0-3",
     "fs": "^0.0.1-security",
     "next": "13.4.12",
     "react": "18.2.0",
